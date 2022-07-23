@@ -11,15 +11,194 @@
 		</h3>
 		<h3>
 			<a href="/artists"><button class="btn btn-primary btn-lg">Find an artist</button></a>
-			<a href="/artists/create"><button class="btn btn-default btn-lg">Post an artist</button></a>
+			<!-- <a href="/artists/create"><button class="btn btn-default btn-lg" data-toggle="modal" data-target="#post-artist">Post an artist</button></a> -->
+			<button class="btn btn-default btn-lg" data-toggle="modal" data-target="#post-artist">Post an artist</button>
 		</h3>
 		<p class="lead">Publicize about your show for free.</p>
 		<h3>
 			<a href="/shows/create"><button class="btn btn-default btn-lg">Post a show</button></a>
+			<button class="btn btn-default btn-lg">Post a show</button>
 		</h3>
 	</div>
 	<div class="col-sm-6 hidden-sm hidden-xs">
 		<img id="front-splash" src="{{ url_for('static',filename='img/front-splash.jpg') }}" alt="Front Photo of Musical Band" />
 	</div>
 </div>
+<div class="modal fade" id="post-artist" role="dialog">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="btn btn-secondary close" data-dismiss="modal">x</button>
+				<h4 class="modal-title">List a new artist</h4>
+			</div>
+			<div class="modal-body">
+				<!-- <form method="post" class="form">
+					<div class="form-group">
+						<label for="name"></label>
+						{{ form.name(class_ = 'form-control', autofocus = true, placeholder='Name') }}
+					</div>
+					<div class="form-group">
+						<label>City & State</label>
+						<div class="form-inline">
+							<div class="form-group">
+							{{ form.city(class_ = 'form-control', placeholder='City', autofocus = true) }}
+							</div>
+							<div class="form-group">
+							{{ form.state(class_ = 'form-control', placeholder='State', autofocus = true) }}
+							</div>
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="phone">Phone</label>
+						{{ form.phone(class_ = 'form-control', placeholder='xxx-xxx-xxxx', autofocus = true) }}
+						</div>
+					<div class="form-group">
+						<label for="genres">Genres</label>
+						<small>Ctrl+Click to select multiple</small>
+						{{ form.genres(class_ = 'form-control', placeholder='Genres, separated by commas', autofocus = true) }}
+					</div>
+					<div class="form-group">
+						<label for="facebook_link">Facebook Link</label>
+						{{ form.facebook_link(class_ = 'form-control', placeholder='http://', autofocus = true) }}
+						</div>
+					
+						<div class="form-group">
+						<label for="image_link">Image Link</label>
+						{{ form.image_link(class_ = 'form-control', placeholder='http://', autofocus = true) }}
+						</div>
+
+						<div class="form-group">
+							<label for="website_link">Website Link</label>
+							{{ form.website_link(class_ = 'form-control', placeholder='http://', autofocus = true) }}
+						</div>
+
+						<div class="form-group">
+							<label for="seeking_venue">Looking for Venues</label>
+							{{ form.seeking_venue(placeholder='Venue', autofocus = true) }}
+						</div>
+
+						<div class="form-group">
+							<label for="seeking_description">Seeking Description</label>
+							{{ form.seeking_description(class_ = 'form-control', autofocus = true) }}
+							</div>
+					<input type="submit" value="Create Artist" class="btn btn-primary btn-lg btn-block">
+				</form> -->
+				<div class="form">
+                    <form method="post" enctype="multipart/form-data" id="form-post" ></form>  
+                        <div class="champs">
+                            {{ form.name }}
+                            <p><span id='error_name'></span></p>
+							
+							<div class="form-group">
+								<label>City & State</label>
+								<div class="form-inline">
+									<div class="form-group">
+										{{ form.city}}
+									</div>
+									<div class="form-group">
+										{{ form.state}}
+									</div>
+								</div>
+							</div>
+							
+							{{ form.phone }}
+                          	<p><span id='error_phone'></span></p>
+							
+							<div class="form-group">
+								<label for="genres">Genres</label>
+								<small>Ctrl+Click to select multiple</small>
+								{{ form.genres(class_ = 'form-control', placeholder='Genres, separated by commas', autofocus = true) }}
+							</div>
+
+							{{ form.facebook_link }}
+                            <p><span id='error-facebook-linke'></span></p>
+
+							{{ form.image_link }}
+                            <p><span id='error-image-link'></span></p>
+
+							{{ form.seeking_description }}
+                            <p><span id='error_description'></span></p>
+							<div>
+                                <input class="btn btn-primary btn1" type="submit" onclick="validatePost()" name="" value="Publier">
+                            </div>
+                    	</div>
+                    </form>
+			</div>
+		
+		</div>
+	</div>
+</div>
+<script>
+var form_fields = document.getElementsByTagName('input')
+
+for (var field in form_fields){
+			form_fields[field].className += ' form-control'
+		}
+
+var id_name = document.getElementById('name')
+    id_name.placeholder = "Name"
+	id_name.autofocus = true
+var error_name = document.getElementById('error_name')
+
+var id_city = document.getElementById('city')
+    id_city.placeholder = 'City'
+	id_city.autofocus = true
+var error_city = document.getElementById('error_city')
+
+var id_state = document.getElementById('state')
+	id_state.placeholder = 'State'
+	id_state.autofocus = true
+var error_state = document.getElementById('error_state')
+
+var id_phone = document.getElementById('phone')
+    id_phone.placeholder = 'Phone number xxx-xxx-xxx'
+	id_phone.autofocus = true
+var error_phone = document.getElementById('error_phone')
+
+var id_facebook = document.getElementById('facebook_link')
+    id_facebook.placeholder = 'Facebook-Link http://www.facebook.com'
+	id_facebook.autofocus = true
+var error_facebook_link = document.getElementById('error-facebook-link')
+
+var id_image = document.getElementById('image_link')
+    id_image.placeholder = 'image-Link http://www.image.com'
+	id_image.autofocus = true
+var error_image_link = document.getElementById('error-image-link')
+
+var id_description = document.getElementById('seeking_description')
+	id_description.placeholder = 'Description'
+	id_description.autofocus = true
+var error_description = document.getElementById('error_decription')
+
+function valChapmsText(champs, errClass) {
+    if (champs.value == "") {
+    errClass.innerHTML="*this fields is required";
+    champs.focus();
+    champs.classList.add('err');
+    return false;
+    } else {
+    errClass.innerHTML="";
+    champs.classList.remove('err');
+    return true;
+    }
+}
+
+
+function validatePost() {
+
+  // body...
+  if (valChapmsText(id_name, error_name)
+    && valChapmsText(id_city, error_city)
+	&& valChapmsText(id_phone, error_phone)
+	&& valChapmsText(id_facebook, error_facebook_link)
+	&& valChapmsText(id_image, error_image_link)
+    && valChapmsText(id_description, error_description)
+    ){
+    return true;
+  }
+  else{
+    return false;
+  }
+}
+</script>
 {% endblock %}

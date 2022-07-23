@@ -77,7 +77,8 @@ app.jinja_env.filters['datetime'] = format_datetime
 
 @app.route('/')
 def index():
-  return render_template('pages/home.html')
+  form  = ArtistForm()
+  return render_template('pages/home.html', form=form)
 
 
 #  Venues
@@ -408,7 +409,8 @@ def edit_venue_submission(venue_id):
 @app.route('/artists/create', methods=['GET'])
 def create_artist_form():
   form = ArtistForm()
-  return render_template('forms/new_artist.html', form=form)
+  # return render_template('forms/new_artist.html', form=form)
+  return render_template('pages/home.html', form=form)
 
 @app.route('/artists/create', methods=['POST'])
 def create_artist_submission():
@@ -509,6 +511,7 @@ if not app.debug:
 # Launch.
 #----------------------------------------------------------------------------#
 
+"""
 # Default port:
 if __name__ == '__main__':
     app.run()
@@ -519,3 +522,7 @@ if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5000))
     app.run(host='0.0.0.0', port=port)
 '''
+"""
+if __name__ == '__main__':
+    app.debug = True
+    app.run(host='0.0.0.0', port=3000)
