@@ -1,0 +1,101 @@
+{% extends 'layouts/main.html' %}
+{% block title %}Fyyur{% endblock %}
+{% block content %}
+<div class="row">
+	<div class="col-sm-6">
+		<h1>Fyyur 🔥</h1>
+		<p class="lead">Where musical artists meet musical venues.</p>
+		<h3>
+			<a href="/venues"><button class="btn btn-primary btn-lg">Find a venue</button></a>
+			<a href="/venues/create"><button class="btn btn-default btn-lg">Post a venue</button></a>
+		</h3>
+		<h3>
+			<a href="/artists"><button class="btn btn-primary btn-lg">Find an artist</button></a>
+			<a href="/artists/create"><button class="btn btn-default btn-lg">Post an artist</button></a>
+			<!-- <button class="btn btn-default btn-lg" data-toggle="modal" data-target="#post-artist">Post an artist</button> -->
+		</h3>
+		<p class="lead">Publicize about your show for free.</p>
+		<h3>
+			<a href="/shows/create"><button class="btn btn-default btn-lg">Post a show</button></a>
+			<button class="btn btn-default btn-lg">Post a show</button>
+		</h3>
+	</div>
+	<div class="col-sm-6 hidden-sm hidden-xs">
+		<img id="front-splash" src="{{ url_for('static',filename='img/front-splash.jpg') }}" alt="Front Photo of Musical Band" />
+	</div>
+</div>
+
+<script>
+var form_fields = document.getElementsByTagName('input')
+
+for (var field in form_fields){
+			form_fields[field].className += ' form-control'
+		}
+// traiter le formulaire d'envoi
+var id_name = document.getElementById('name')
+    id_name.placeholder = "Name"
+	id_name.autofocus = true
+var error_name = document.getElementById('error_name')
+
+var id_city = document.getElementById('city')
+    id_city.placeholder = 'City'
+	id_city.autofocus = true
+var error_city = document.getElementById('error_city')
+
+var id_state = document.getElementById('state')
+	id_state.placeholder = 'State'
+	id_state.autofocus = true
+var error_state = document.getElementById('error_state')
+
+var id_phone = document.getElementById('phone')
+    id_phone.placeholder = 'Phone number xxx-xxx-xxx'
+	id_phone.autofocus = true
+var error_phone = document.getElementById('error_phone')
+
+var id_facebook = document.getElementById('facebook_link')
+    id_facebook.placeholder = 'Facebook-Link http://www.facebook.com'
+	id_facebook.autofocus = true
+var error_facebook_link = document.getElementById('error-facebook-link')
+
+var id_image = document.getElementById('image_link')
+    id_image.placeholder = 'image-Link http://www.image.com'
+	id_image.autofocus = true
+var error_image_link = document.getElementById('error-image-link')
+
+var id_description = document.getElementById('seeking_description')
+	id_description.placeholder = 'Description'
+	id_description.autofocus = true
+var error_description = document.getElementById('error_decription')
+
+// fonction controlant l'envoi du formulaire
+function valChapmsText(champs, errClass) {
+    if (champs.value == "") {
+    errClass.innerHTML="*this fields is required";
+    champs.focus();
+    champs.classList.add('err');
+    return false;
+    } else {
+    errClass.innerHTML="";
+    champs.classList.remove('err');
+    return true;
+    }
+}
+
+
+function validatePost(){
+  // body...
+  if (valChapmsText(id_name, error_name)
+    && valChapmsText(id_city, error_city)
+	&& valChapmsText(id_phone, error_phone)
+	&& valChapmsText(id_facebook, error_facebook_link)
+	&& valChapmsText(id_image, error_image_link)
+    && valChapmsText(id_description, error_description)
+    ){
+    return true;
+  }
+  else{
+    return false;
+  }
+}
+</script>
+{% endblock %}
