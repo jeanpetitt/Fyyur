@@ -5,7 +5,13 @@ venv
 # environnements
 fyyur/
 /node_modules
+package-lock.json
+package.json
 
+#migration
+migration/
+
+__pycache__
 # OS generated files #
 ######################
 .DS_Store
