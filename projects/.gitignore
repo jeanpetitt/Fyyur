@@ -8,8 +8,13 @@ fyyur/
 package-lock.json
 package.json
 
+BasicFlaskAuth
+FlaskRecap
+LocalStore
+
+
 #migration
-migrations/
+/migrations
 
 __pycache__
 # OS generated files #

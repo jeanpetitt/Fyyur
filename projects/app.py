@@ -75,7 +75,7 @@ def create_venue():
 # routes qui permet d'afficher toutes les salles(venues)
 @app.route('/venues')
 def venues():
-    data = 0
+    data = []
 
 #   data=[{
 #     "city": "San Francisco",
