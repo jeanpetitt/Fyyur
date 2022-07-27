@@ -9,7 +9,7 @@ package-lock.json
 package.json
 
 #migration
-migration/
+migrations/
 
 __pycache__
 # OS generated files #

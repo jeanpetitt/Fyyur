@@ -61,7 +61,7 @@ def create_venue():
     error = ''
     if request.method == 'POST':
         venue_form = VenueForm(request.form, obj=venue)
-        if venue_form.validate(): 
+        if venue_form.validate():
             venue_form.populate_obj(venue)
             db.session.add(venue)
             db.session.commit()
@@ -73,31 +73,9 @@ def create_venue():
     return render_template('forms/new_venue.html', form=venue_form, error=error)
 
 # routes qui permet d'afficher toutes les salles(venues)
-
 @app.route('/venues')
 def venues():
-    city_and_state_uniq = Venue.query.distinct(Venue.state, Venue.city).all()
-    list_venues = Venue.query.all()
-    list_city_state = []
-    venues = []
-    datas = {}
-    print(list_venues)
-    for state_city in city_and_state_uniq:
-        for venue in list_venues:
-            if venue.city == state_city.city and venue.state == state_city.state:
-                venues.append(venue)
-                if venue.city in state_city.city and venue.state in state_city.state:
-                    datas = {
-                        'city': state_city.city,
-                        'state': state_city.state,
-                        'venues': venues
-                        }   
-        list_city_state.append(datas)
-    data = [] 
-    for liste in list_city_state:
-        if liste not in data:
-            data.append(liste)
-                
+    data = 0
 
 #   data=[{
 #     "city": "San Francisco",
