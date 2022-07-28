@@ -76,6 +76,18 @@
 </section>
 
 <a href="/venues/{{ venue.id }}/edit"><button class="btn btn-primary btn-lg">Edit</button></a>
+<a href="/venues/{{ venue.id }}/delete"><button onclick="return delete_venue()" class="btn btn-danger btn-lg">Delete</button></a>
+
+<script>
+	function delete_venue() {
+        res = confirm("Voulez-vous vraiment supprimmer le lieu(venue) {{venue.name}} ? ");
+        if(res){
+            return true;
+        }else{
+            return false;
+        }
+    }
+</script>
 
 {% endblock %}
 

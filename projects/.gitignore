@@ -8,9 +8,7 @@ fyyur/
 package-lock.json
 package.json
 
-BasicFlaskAuth
-FlaskRecap
-LocalStore
+
 
 
 #migration
