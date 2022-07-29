@@ -340,6 +340,7 @@ def delete_artist(artist_id):
 def shows():
       shows = Show.query.all()
       data = []
+      new_data = []
       for show in shows:
             data.append({
               'venue_id': show.venue_id,
@@ -349,7 +350,11 @@ def shows():
               'artist_image_link': show.artist.image_link,
               'start_time': format_datetime(str(show.start_time))
             })
-  
+      # eliminer les doublons
+      for item in data:
+            if item not in new_data:
+                  new_data.append(item)
+      data = new_data
       return render_template('pages/shows.html', shows=data)
 
 @app.route('/shows/create', methods=['POST', 'GET'])
@@ -357,6 +362,10 @@ def create_shows():
   show = Show()
   show_form = ShowForm(obj=show)
   error = ''
+  artist = Artist.query.all()
+  artist_id = []
+  for id in artist:
+        artist_id.append(id)
   if request.method == 'POST':
         show_form = ShowForm(request.form, obj=show)
         if show_form.validate():

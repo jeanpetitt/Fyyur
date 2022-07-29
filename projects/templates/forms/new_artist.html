@@ -7,6 +7,7 @@
       <div class="form-group">
         <label for="name">Name</label>
         {{ form.name(class_ = 'form-control', autofocus = true) }}
+        <span id="error_name"></span>
       </div>
       <div class="form-group">
           <label>City & State</label>
@@ -16,8 +17,10 @@
             </div>
             <div class="form-group">
               {{ form.state(class_ = 'form-control', placeholder='State', autofocus = true) }}
+              <span id="error_state"></span>
             </div>
           </div>
+          <span id="error_city"></span>
       </div>
       <div class="form-group">
           <label for="phone">Phone</label>
@@ -27,10 +30,15 @@
         <label for="genres">Genres</label>
         <small>Ctrl+Click to select multiple</small>
         {{ form.genres(class_ = 'form-control', placeholder='Genres, separated by commas', autofocus = true) }}
+        <span id="error_genres"></span>
       </div>
       <div class="form-group">
           <label for="facebook_link">Facebook Link</label>
           {{ form.facebook_link(class_ = 'form-control', placeholder='http://', autofocus = true) }}
+          <span id="error_facebook_link"></span>
+          {% if form.facebook_link.errors %}
+            <span class="err">the given URL is invalid. please try it <b>http://</b></span>
+          {% endif %}
         </div>
       
         <div class="form-group">
@@ -52,7 +60,54 @@
               <label for="seeking_description">Seeking Description</label>
               {{ form.seeking_description(class_ = 'form-control', autofocus = true) }}
             </div>
-      <input type="submit" value="Create Artist" class="btn btn-primary btn-lg btn-block">
+      <input type="submit" onclick="return validateArtist()" value="Create Artist" class="btn btn-primary btn-lg btn-block">
     </form>
   </div>
+
+<script>
+    // traiter le formulaire d'envoi
+var id_name = document.getElementById('name')
+var error_name = document.getElementById('error_name')
+
+var id_city = document.getElementById('city')
+var error_city = document.getElementById('error_city')
+
+var id_state = document.getElementById('state')
+var error_state = document.getElementById('error_state')
+
+var id_genres = document.getElementById('genres')
+var error_genres = document.getElementById('error_genres')
+var id_facebook = document.getElementById('facebook_link')
+var error_facebook_link = document.getElementById('error_facebook_link')
+
+// fonction controlant l'envoi du formulaire
+function valChapmsText(champs, errClass) {
+    if(champs.value == "") {
+      errClass.innerHTML="*this fields is required";
+      champs.focus();
+      errClass.classList.add('err');
+      return false;
+    } else {
+      errClass.innerHTML="";
+      errClass.classList.remove('err');
+      return true;
+    }
+}
+
+
+function validateArtist(){
+  // body...
+  if (valChapmsText(id_name, error_name)
+    && valChapmsText(id_city, error_city)
+    && valChapmsText(id_state, error_state)
+	  && valChapmsText(id_facebook, error_facebook_link)
+    && valChapmsText(id_genres, error_genres)
+    ){
+    return true;
+  }
+  else{
+    return false;
+  }
+}
+</script>
 {% endblock %}
