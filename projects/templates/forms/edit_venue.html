@@ -2,11 +2,12 @@
 {% block title %}Edit Venue{% endblock %}
 {% block content %}
   <div class="form-wrapper">
-    <form class="form" method="post" action="/venues/{{venue.id}}/edit">
+    <form method="post" class="form" action="/venues/{{venue.id}}/edit">
       <h3 class="form-heading">Edit venue <em>{{ venue.name }}</em> <a href="{{ url_for('index') }}" title="Back to homepage"><i class="fa fa-home pull-right"></i></a></h3>
       <div class="form-group">
         <label for="name">Name</label>
         {{ form.name(class_ = 'form-control', autofocus = true) }}
+        <span id="error_name"></span>
       </div>
       <div class="form-group">
           <label>City & State</label>
@@ -18,23 +19,38 @@
               {{ form.state(class_ = 'form-control', placeholder='State', autofocus = true) }}
             </div>
           </div>
+          <span id="error_city"></span>
       </div>
       <div class="form-group">
         <label for="address">Address</label>
         {{ form.address(class_ = 'form-control', autofocus = true) }}
+        <span id="error_address"></span>
       </div>
       <div class="form-group">
           <label for="phone">Phone</label>
-          {{ form.phone(class_ = 'form-control', placeholder='xxx-xxx-xxxx', autofocus = true) }}
+          <span style="font-size: 13px; color: #333; margin-bottom: 3px;">&emsp;(avec indicatif du pays, ex: +237)</span>
+          {% if num_tel == ''%}
+          <input autofocus="" class="form-control" id="phone" name="phone" placeholder="phone" value="" type="tel">
+          {% endif %}
+          {% if num_tel != ''%}
+          <input autofocus="" value="{{num_tel}}" class="form-control" id="phone" name="phone" placeholder="phone" value="" type="tel">
+          {% endif %}
+          <span id="error_phone"></span>
         </div>
       <div class="form-group">
         <label for="genres">Genres</label>
         <small>Ctrl+Click to select multiple</small>
         {{ form.genres(class_ = 'form-control', placeholder='Genres, separated by commas', autofocus = true) }}
+        <span id="error_genres"></span>
       </div>
+      
       <div class="form-group">
           <label for="facebook_link">Facebook Link</label>
           {{ form.facebook_link(class_ = 'form-control', placeholder='http://', autofocus = true) }}
+          <span id="error_facebook_link"></span>
+          {% if form.facebook_link.errors %}
+            <span class="err">the given URL is invalid. please try it <b>http://</b></span>
+          {% endif %}
        </div>
       
        <div class="form-group">
@@ -43,21 +59,108 @@
        </div>
 
        <div class="form-group">
-              <label for="website_link">Website Link</label>
-              {{ form.website_link(class_ = 'form-control', placeholder='http://', autofocus = true) }}
-        </div>
+            <label for="website_link">Website Link</label>
+            {{ form.website_link(class_ = 'form-control', placeholder='http://', autofocus = true) }}
+       </div>
 
-        <div class="form-group">
+       <div class="form-group">
              <label for="seeking_talent">Looking for Talent</label>
              {{ form.seeking_talent(placeholder='Venue', autofocus = true) }}
-        </div>
+       </div>
 
-        <div class="form-group">
+       <div class="form-group">
             <label for="seeking_description">Seeking Description</label>
-            {{ form.seeking_description(class_ = 'form-control', autofocus = true) }}
-          </div>
-      
-      <input type="submit" value="Edit Venue" class="btn btn-primary btn-lg btn-block">
+            {{ form.seeking_description(class_ = 'form-control', placeholder='Description', autofocus = true) }}
+       </div>
+      <input type="submit" onclick="return validateVenue()" value="Create Venue" class="btn btn-primary btn-lg btn-block">
     </form>
   </div>
+
+<script>
+    // traiter le formulaire d'envoi
+var id_name = document.getElementById('name')
+var error_name = document.getElementById('error_name')
+
+var id_city = document.getElementById('city')
+var error_city = document.getElementById('error_city')
+
+var id_state = document.getElementById('state')
+var error_state = document.getElementById('error_state')
+var id_address = document.getElementById('address')
+var error_address = document.getElementById('error_address')
+
+var id_genres = document.getElementById('genres')
+var error_genres = document.getElementById('error_genres')
+var id_facebook = document.getElementById('facebook_link')
+var error_facebook_link = document.getElementById('error_facebook_link')
+var phone = document.getElementById('phone');
+var error_phone = document.getElementById('error_phone');
+
+function valChapmsTel(champs, errClass) {
+	if (champs.value == "") {
+			errClass.innerHTML="*this field is required";
+			champs.focus();
+			errClass.classList.add('err');
+			return false;
+	} else if (champs.value.charAt(0)!="+") {
+			errClass.innerHTML="*please enter the country indicatif, ex: +237";
+			champs.focus();
+			errClass.classList.add('err');
+			return false;
+		} 
+    // verifier les numeros sont compris entre 11 et 16
+    else if (champs.value.length <= 11 || champs.value.length >= 16) {
+			errClass.innerHTML="*please enter correct number (11 chiffres minimum, 16 maxi)";
+			champs.focus();
+		  errClass.classList.add('err');
+			return false;
+		}  else {
+      // verifier que l'utilsateur ne saisisse pas un caractere autre que les
+      // chiffres
+			for (let i = 1; i < champs.value.length; i++) {
+				if (champs.value.charAt(i) < "0" || champs.value.charAt(i) > "9") {
+					errClass.innerHTML="*please enter the valid number";
+					champs.focus();
+					errClass.classList.add('err');
+					return false;
+				}
+			}
+		}
+		errClass.innerHTML="";
+		errClass.classList.remove('err');
+		return true;
+}
+
+// fonction controlant l'envoi du formulaire
+function valChapmsText(champs, errClass) {
+    if(champs.value == "") {
+      errClass.innerHTML="*this fields is required.";
+      champs.focus();
+      errClass.classList.add('err');
+      return false;
+    } else {
+      errClass.innerHTML="";
+      errClass.classList.remove('err');
+      return true;
+    }
+}
+
+
+function validateVenue(){
+  // body...
+  if (valChapmsText(id_name, error_name)
+    && valChapmsText(id_city, error_city)
+    && valChapmsText(id_address, error_address)
+    && valChapmsTel(phone, error_phone)
+    && valChapmsText(id_genres, error_genres)
+	  && valChapmsText(id_facebook, error_facebook_link)
+    ){
+    return true;
+  }
+  else{
+    return false;
+  }
+}
+</script>
 {% endblock %}
+
