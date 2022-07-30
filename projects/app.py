@@ -212,8 +212,10 @@ def create_artist_submission():
     artist = Artist()
     artist_form = ArtistForm(obj=artist)
     error = ''
+    num_tel = ''
     if request.method == 'POST':
         artist_form = ArtistForm(request.form, obj=artist)
+        phone = request.form.get('phone')
         if artist_form.validate():
             artist_form.populate_obj(artist)
             db.session.add(artist)
@@ -221,9 +223,10 @@ def create_artist_submission():
             flash('Artist ' + request.form['name'] + ' was successfully listed!')
             return redirect(url_for('artists'))
         else:
+            num_tel = phone
             error = artist_form.errors
     # see: http://flask.pocoo.org/docs/1.0/patterns/flashing/
-    return render_template('forms/new_artist.html', form=artist_form, error=error)
+    return render_template('forms/new_artist.html', form=artist_form, error=error, num_tel=num_tel)
 
 # afficher la listee d'artiste
 @app.route('/artists')

@@ -28,7 +28,14 @@
       </div>
       <div class="form-group">
           <label for="phone">Phone</label>
-          {{ form.phone(class_ = 'form-control', placeholder='xxx-xxx-xxxx', autofocus = true) }}
+          <span style="font-size: 13px; color: #333; margin-bottom: 3px;">&emsp;(avec indicatif du pays, ex: +237)</span>
+          {% if num_tel == ''%}
+          <input autofocus="" class="form-control" id="phone" name="phone" placeholder="phone" value="" type="tel">
+          {% endif %}
+          {% if num_tel != ''%}
+          <input autofocus="" value="{{num_tel}}" class="form-control" id="phone" name="phone" placeholder="phone" value="" type="tel">
+          {% endif %}
+          <span id="error_phone"></span>
         </div>
       <div class="form-group">
         <label for="genres">Genres</label>
@@ -87,6 +94,43 @@ var id_genres = document.getElementById('genres')
 var error_genres = document.getElementById('error_genres')
 var id_facebook = document.getElementById('facebook_link')
 var error_facebook_link = document.getElementById('error_facebook_link')
+var phone = document.getElementById('phone');
+var error_phone = document.getElementById('error_phone');
+
+function valChapmsTel(champs, errClass) {
+	if (champs.value == "") {
+			errClass.innerHTML="*this field is required";
+			champs.focus();
+			errClass.classList.add('err');
+			return false;
+	} else if (champs.value.charAt(0)!="+") {
+			errClass.innerHTML="*please enter the country indicatif, ex: +237";
+			champs.focus();
+			errClass.classList.add('err');
+			return false;
+		} 
+    // verifier les numeros sont compris entre 11 et 16
+    else if (champs.value.length <= 11 || champs.value.length >= 16) {
+			errClass.innerHTML="*please enter correct number (11 chiffres minimum, 16 maxi)";
+			champs.focus();
+		  errClass.classList.add('err');
+			return false;
+		}  else {
+      // verifier que l'utilsateur ne saisisse pas un caractere autre que les
+      // chiffres
+			for (let i = 1; i < champs.value.length; i++) {
+				if (champs.value.charAt(i) < "0" || champs.value.charAt(i) > "9") {
+					errClass.innerHTML="*please enter the valid number";
+					champs.focus();
+					errClass.classList.add('err');
+					return false;
+				}
+			}
+		}
+		errClass.innerHTML="";
+		errClass.classList.remove('err');
+		return true;
+}
 
 // fonction controlant l'envoi du formulaire
 function valChapmsText(champs, errClass) {
@@ -108,8 +152,9 @@ function validateVenue(){
   if (valChapmsText(id_name, error_name)
     && valChapmsText(id_city, error_city)
     && valChapmsText(id_address, error_address)
-	  && valChapmsText(id_facebook, error_facebook_link)
+    && valChapmsTel(phone, error_phone)
     && valChapmsText(id_genres, error_genres)
+	  && valChapmsText(id_facebook, error_facebook_link)
     ){
     return true;
   }
