@@ -44,7 +44,11 @@ app.jinja_env.filters['datetime'] = format_datetime
 
 @app.route('/')
 def index():
-  return render_template('pages/home.html')
+  # liste des lieux et artistes a afficher sur la page d'accueil
+  venues = Venue.query.limit(10).all()
+  artists = Artist.query.limit(10).all()    
+  
+  return render_template('pages/home.html', venues=venues,  artists=artists)
 
 
 #  Venues

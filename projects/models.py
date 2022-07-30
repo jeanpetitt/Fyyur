@@ -21,6 +21,7 @@ class Venue(db.Model):
     website_link = db.Column(db.String(200))
     seeking_talent = db.Column(db.Boolean)
     seeking_description = db.Column(db.String(200))
+    
 
     def __repr__(self):
         return f'le lieu de concert {self.name}'
@@ -39,6 +40,7 @@ class Artist(db.Model):
     website_link = db.Column(db.String(200))
     seeking_venue = db.Column(db.Boolean)
     seeking_description = db.Column(db.String(200))
+    shows = db.relationship('Show', backref=db.backref('artist', cascade='all, delete'), lazy=True)
     
     def __repr(self):
         return f' artiste {self.name}'
@@ -49,8 +51,9 @@ class Show(db.Model):
     venue_id = db.Column(db.Integer, db.ForeignKey('venue.id'), nullable=False)
     venue = db.relationship('Venue', backref=db.backref('venue', cascade='all, delete'), lazy=True)
     artist_id = db.Column(db.Integer, db.ForeignKey('artist.id'), nullable=False)
-    artist = db.relationship('Artist', backref=db.backref('artist', cascade='all, delete'), lazy=True)
     start_time = db.Column(db.DateTime())
     
     def __repr__(self):
         return f" le spetacle {self.id} aura lieu a {self.start_time} par l'artiste {self.artist_id} a la salle(venue) {self.venue_id}"
+
+    
