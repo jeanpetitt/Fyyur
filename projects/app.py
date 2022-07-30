@@ -114,6 +114,7 @@ def search_venues():
   # pour cela nous alons utilser ilike similaire a icontains en django pour la sensibilite
   # a la casse, il y'aura pas de difference entre A et a
   res = Venue.query.filter(Venue.name.ilike(f'%{terme}%'))
+  
   response={
     "count": res.count(),
     "data": res
@@ -306,7 +307,7 @@ def show_artist(artist_id):
 def search_artists():
   
   # recherche d'un artiste en foncton du nom nom sensible a la casse
-  terme = request.form.get('search_term', '')
+  terme = request.form.get('search_artist', '')
   res = Artist.query.filter(Artist.name.ilike(f'%{terme}%'))
   
   response={
