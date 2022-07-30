@@ -71,6 +71,23 @@
 		{% endfor %}
 	</div>
 </section>
+<section>
+	<h2 class="monospace">List of Albums</h2>
+	<div class="row">
+		{% for album in albums %}
+		<div class="col-sm-4">
+			<div class="tile tile-show">
+				<img src="{{ album.artist_image_link }}" alt="Show Venue Image" />
+				<h4><strong>album: {{ album.name }}</srong></h4>
+				<h5> list songs:</5>
+				{% for song in album.list_song %}
+				<h6>{{ song.title_song }}</h6>
+				{% endfor %}
+			</div>
+		</div>
+		{% endfor %}
+	</div>
+</section>
 
 <a href="/artists/{{ artist.id }}/edit"><button class="btn btn-primary btn-lg">Edit</button></a>
 <a href="/artists/{{ artist.id }}/delete"><button onclick="return delete_venue()" class="btn btn-danger btn-lg">Delete</button></a>

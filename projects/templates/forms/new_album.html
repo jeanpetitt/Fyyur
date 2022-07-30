@@ -1,0 +1,27 @@
+{% extends 'layouts/main.html' %}
+{% block title %}New Artist{% endblock %}
+{% block content %}
+  <div class="form-wrapper">
+    <form method="post" class="form">
+      <h3 class="form-heading">List a new album</h3>
+      <div class="form-group">
+        <label for="name">Name</label>
+        {{ form.name(class_ = 'form-control', placeholder='Name', autofocus = true) }}
+        <span id="error_name"></span>
+      </div>
+      
+      <div class="form-group">
+          <label for="facebook_link">Title Song</label>
+          {{ form.title_song(class_ = 'form-control', placeholder='Song', autofocus = true) }}
+          <span id="error_song"></span>
+      </div>
+
+      <div class="form-group">
+        <label for="website_link">ID artist</label>
+        <small>ID can be found on the Show's Page</small>
+        {{ form.artist_id(class_ = 'form-control', placeholder='artist id', autofocus = true) }}
+     </div>
+      <input type="submit" onclick="return validateArtist()" value="Create Album" class="btn btn-primary btn-lg btn-block">
+    </form>
+  </div>
+{% endblock %}

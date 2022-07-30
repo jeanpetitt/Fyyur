@@ -252,6 +252,22 @@ def show_artist(artist_id):
   # filtrer toutes les artist et les lieux ou ils ferons des spectacles ou qu'ils ont
   # fait des spectacles
   shows = Show.query.filter_by(artist_id=artist_id).all()
+  
+  # lister les album et les chansons d'un artiste
+  album_distinct = Album.query.distinct(Album.name).limit(10).all()
+  list_album = Album.query.all()
+  albums = []
+  for alb in album_distinct:
+        albums.append({
+          'name': alb.name,
+          'artist_image_link': alb.artist.image_link,
+          'list_song': set()
+        })
+  for album in list_album:
+        for item in albums:
+            if album.name == item['name']:
+                item['list_song'].add(album)
+                  
 
   for show in shows:
       data = {
@@ -283,7 +299,7 @@ def show_artist(artist_id):
     "upcoming_shows_count": len(upcoming_shows)
   }
  
-  return render_template('pages/show_artist.html', artist=data)
+  return render_template('pages/show_artist.html', artist=data, albums=albums)
 
 # recherche d'un artiste
 @app.route('/artists/search', methods=['POST'])
@@ -383,6 +399,24 @@ def create_shows():
               error = show_form.errors
         
   return render_template('forms/new_show.html', form=show_form, error=error)
+
+@app.route('/albums/create', methods=['POST', 'GET'])
+def albums():
+      album = Album()
+      form = AlbumForm(obj=album)
+      error = ''
+      if request.method == 'POST':
+            form = AlbumForm(request.form, obj=album)
+            if form.validate():
+                  form.populate_obj(album)
+                  db.session.add(album)
+                  db.session.commit()
+                  flash('album was succesfully listed')
+                  return redirect(url_for('index'))
+            else:
+                  error = form.errors
+                
+      return render_template('forms/new_album.html', form=form)
 
 @app.errorhandler(404)
 def not_found_error(error):

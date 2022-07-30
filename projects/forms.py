@@ -238,4 +238,7 @@ class ArtistForm(Form):
     seeking_description = StringField(
             'seeking_description'
      )
-
+class AlbumForm(Form):
+    name = StringField('name', validators=[DataRequired()])
+    title_song = StringField('title_song', validators=[DataRequired()])
+    artist_id = StringField('artist_id', validators=[DataRequired()])

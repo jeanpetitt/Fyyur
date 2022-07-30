@@ -56,4 +56,12 @@ class Show(db.Model):
     def __repr__(self):
         return f" le spetacle {self.id} aura lieu a {self.start_time} par l'artiste {self.artist_id} a la salle(venue) {self.venue_id}"
 
+# creation de la table album pour attribuer les albums aux artistes
+class Album(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(140))
+    title_song = db.Column(db.String(120))
+    artist = db.relationship('Artist', backref=db.backref('artist', cascade='all, delete'), lazy=True)
+    artist_id = db.Column(db.Integer, db.ForeignKey('artist.id'), nullable=False) 
+
     
