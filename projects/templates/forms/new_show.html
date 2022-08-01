@@ -7,9 +7,10 @@
       <div class="form-group">
         <label for="artist_id">Artist ID</label>
         <small>ID can be found on the Artist's Page</small>
-        {{ form.artist_id(class_ = 'form-control', autofocus = true) }}
+        {{ form1.artist_id(class_ = 'form-control', autofocus = true) }}
         <span id="err_artist_id"></span>
       </div>
+      <input id="artist" name="artist_id" required="" type="text" value="" hidden>
       <div class="form-group">
         <label for="venue_id">Venue ID</label>
         <small>ID can be found on the Venue's Page</small>
@@ -24,8 +25,9 @@
             <span class="err">*the date format is not correct. Please try it YYYY-MM-DD HH:MM:SS </span>
           {% endif %}
       </div>
-        <input type="submit" onclick="return validateShow()" value="Create Venue" class="btn btn-primary btn-lg btn-block">
+        <input type="submit" onclick="return validateFormShow()" value="Create Venue" class="btn btn-primary btn-lg btn-block">
     </form>
+    {{ form1.errors}}
   </div>
 
 <script>
@@ -66,5 +68,12 @@ function validateShow(){
       return false;
     }
   }
+function validateFormShow() {
+		var form1 = document.getElementById('artist_id');
+		var form = document.getElementById('artist');
+		form.value = form1.value
+	    
+	  return validateShow()
+	}
 </script>
 {% endblock %}

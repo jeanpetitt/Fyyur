@@ -361,17 +361,28 @@ def delete_artist(artist_id):
 @app.route('/shows')
 def shows():
       shows = Show.query.all()
+      show_artists = ArtistShow.query.all()
+      # afficher tous les artistes d'un spectacle car il s'agit d'une relation
+      # plusieurs a plusieurs
       data = []
       new_data = []
-      for show in shows:
+      artists = Artist.query.all()
+      for show in shows: 
             data.append({
-              'venue_id': show.venue_id,
-              'venue_name': show.venue.name,
-              'artist_id': show.artist_id,
-              'artist_name': show.artist.name,
-              'artist_image_link': show.artist.image_link,
-              'start_time': format_datetime(str(show.start_time))
-            })
+                          'show_id': show.id,
+                          'venue_id': show.venue_id,
+                          'venue_name': show.venue.name,
+                          'artists': set(),                
+                          'venue_image_link': show.venue.image_link,
+                          'start_time': format_datetime(str(show.start_time))
+                        }) 
+            for artist in artists:
+              for show_art in show_artist:
+                if artist.id == show_art.artist.id:
+                    for item in data:
+                      if item['show_id'] == show.id:
+                          item['artists'].add(artist)                                    
+                        
       # eliminer les doublons
       for item in data:
             if item not in new_data:
@@ -382,24 +393,31 @@ def shows():
 @app.route('/shows/create', methods=['POST', 'GET'])
 def create_shows():
   show = Show()
+  artistShow = ArtistShow()
   show_form = ShowForm(obj=show)
+  artistShow_form = ArtistShowForm(obj=artistShow)
   error = ''
-  artist = Artist.query.all()
-  artist_id = []
-  for id in artist:
-        artist_id.append(id)
   if request.method == 'POST':
+        artistShow_form = ArtistShowForm(request.form, obj=artistShow)
         show_form = ShowForm(request.form, obj=show)
-        if show_form.validate():
+        
+        if show_form.validate() and  artistShow_form.validate():
               show_form.populate_obj(show)
               db.session.add(show)
               db.session.commit()
+              # correspndre l'id du du spectacle creer a la classe d'association
+              # artistShow
+              artistShow.show_id = show.id
+              artistShow.id = show.id
+              artistShow_form.populate_obj(artistShow)
+              db.session.add(artistShow)
+              db.session.commit()  
               flash('Show was successfully listed!')
               return redirect(url_for('shows'))
         else:
               error = show_form.errors
         
-  return render_template('forms/new_show.html', form=show_form, error=error)
+  return render_template('forms/new_show.html', form=show_form, form1=artistShow_form)
 
 @app.route('/albums/create', methods=['POST', 'GET'])
 def albums():
