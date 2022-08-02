@@ -2,6 +2,7 @@
 # Imports
 #----------------------------------------------------------------------------#
 
+from crypt import methods
 import json
 import dateutil.parser
 import babel
@@ -354,6 +355,34 @@ def delete_artist(artist_id):
       
       return redirect(url_for('artists'))
 
+# rechercher un artiste etant sur la page de lieu
+@app.route('/search_venue/artist', methods=['POST'])
+def search_artit_venue():
+  terme = request.form.get('search_artist', '')
+  res = Artist.query.filter(Artist.name.ilike(f'%{terme}%'))
+  
+  response={
+    "count": res.count(),
+    "data": res
+  }
+  return render_template('pages/search_artist_venue.html', results=response, search_term=terme)
+
+# fonction permettant d'ajouter un artiste a un spectacle
+@app.route('/artist/show/<int:artist_id>', methods=['GET','POST'])
+def add_show_artist(artist_id):
+        artist = Artist.query.get(artist_id)
+        artist_show = ArtistShow()
+        form = ArtistShowForm(obj=artist_show)
+        if request.method == 'POST':   
+             form = ArtistShowForm(request.form, obj=artist_show)
+             if form.validate:
+                    form.populate_obj(artist_show)
+                    db.session.add(artist_show)
+                    db.session.commit()
+                    flash("l'artiste "+artist.name+" a ete ajoute avec succes au  spectacle")
+                    return redirect(url_for('shows'))
+        return render_template('forms/add_artist_show.html', artist=artist)
+      
 
 #  Shows
 #  ----------------------------------------------------------------
@@ -377,8 +406,8 @@ def shows():
                           'start_time': format_datetime(str(show.start_time))
                         }) 
             for artist in artists:
-              for show_art in show_artist:
-                if artist.id == show_art.artist.id:
+              for show_art in show_artists:
+                if artist.id == show_art.artist.id and show.id == show_art.show_id:
                     for item in data:
                       if item['show_id'] == show.id:
                           item['artists'].add(artist)                                    
@@ -407,9 +436,8 @@ def create_shows():
               db.session.commit()
               # correspndre l'id du du spectacle creer a la classe d'association
               # artistShow
-              artistShow.show_id = show.id
-              artistShow.id = show.id
               artistShow_form.populate_obj(artistShow)
+              artistShow.show_id = show.id
               db.session.add(artistShow)
               db.session.commit()  
               flash('Show was successfully listed!')

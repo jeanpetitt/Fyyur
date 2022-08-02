@@ -244,6 +244,9 @@ class ArtistShowForm(Form):
         'artist_id',
         validators=[DataRequired()]
     )
+    show_id = StringField(
+        'show_id',
+    )
 class AlbumForm(Form):
     name = StringField('name', validators=[DataRequired()])
     title_song = StringField('title_song', validators=[DataRequired()])

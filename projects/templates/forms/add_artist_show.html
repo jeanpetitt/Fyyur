@@ -1,0 +1,17 @@
+{% extends 'layouts/main.html' %}
+{% block title %} Artist | Show{% endblock %}
+{% block content %}
+<div class="form-wrapper">
+    <form method="post" class="form">
+      <h3 class="form-heading">Add new artist in show</h3>
+      <div class="form-group">
+        <label for="artist_id">Show ID</label>
+        <small>ID can be found on the Show's Page</small>
+        <input id="show_id" name="show_id" required="" type="text" value="" class="form-control">
+        <span id="err_show_id"></span>
+        <input id="artist_id" name="artist_id" required="" type="text" value="{{ artist.id}}" class="form-control" style="display: none;">
+      </div>
+        <input type="submit"  value="Add artist" class="btn btn-primary btn-lg btn-block">
+    </form>
+</div>
+{% endblock %}
