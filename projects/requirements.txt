@@ -7,6 +7,7 @@ Flask-Moment==1.0.4
 Flask-SQLAlchemy==2.5.1
 Flask-WTF==1.0.1
 greenlet==1.1.2
+gunicorn==20.1.0
 importlib-metadata==4.12.0
 importlib-resources==5.9.0
 itsdangerous==2.1.2
@@ -15,6 +16,7 @@ Mako==1.2.1
 MarkupSafe==2.1.1
 packaging==21.3
 postgres==4.0
+psycopg2==2.9.3
 psycopg2-binary==2.9.3
 psycopg2-pool==1.1
 pyparsing==3.0.9
