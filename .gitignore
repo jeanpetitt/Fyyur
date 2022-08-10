@@ -4,7 +4,7 @@ venv
 
 # environnements
 fyyur/
-/node_modules
+node_modules/
 package-lock.json
 package.json
 demo_fyyur.zip
@@ -12,15 +12,4 @@ demo_fyyur.zip
 
 
 #migration
-/migrations
-
-__pycache__
-# OS generated files #
-######################
-.DS_Store
-.DS_Store?
-._*
-.Spotlight-V100
-.Trashes
-ehthumbs.db
-Thumbs.db
+migrations/
