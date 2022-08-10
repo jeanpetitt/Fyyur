@@ -1,6 +1,5 @@
 .vscode
 __pycache__
-venv
 
 # environnements
 fyyur/
@@ -8,8 +7,6 @@ node_modules/
 package-lock.json
 package.json
 demo_fyyur.zip
-
-
 
 #migration
 migrations/
