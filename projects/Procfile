@@ -1,2 +1,2 @@
-web: gunicorn app:app
-release: python manage.py db upgrade
+web: gunicorn fbapp:app
+init: FLASK_APP=run.py flask init_db
