@@ -79,4 +79,13 @@ class Album(db.Model):
     artist = db.relationship('Artist', backref=db.backref('artist', cascade='all, delete'), lazy=True)
     artist_id = db.Column(db.Integer, db.ForeignKey('artist.id'), nullable=False) 
 
-    
+def init_db():
+    db.drop_all()
+    db.create_all()
+    db.session.add(Artist)
+    db.session.add(Venue)
+    db.session.add(Album)
+    db.session.add(ArtistShow)
+    db.session.add(Show)
+    db.session.commit()
+    lg.warning('Database initialized!')
