@@ -88,4 +88,4 @@ def init_db():
     db.session.add(ArtistShow)
     db.session.add(Show)
     db.session.commit()
-    lg.warning('Database initialized!')
+    #lg.warning('Database initialized!')
