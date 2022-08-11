@@ -14,6 +14,7 @@ from flask_wtf import Form
 from forms import *
 from models import *
 from datetime import datetime
+import models
 #----------------------------------------------------------------------------#
 # App Config.
 #----------------------------------------------------------------------------#
@@ -21,9 +22,12 @@ from datetime import datetime
 app = Flask(__name__)
 moment = Moment(app)
 app.config.from_object('config')
-db.init_app(app)
+models.db.init_app(app)
 migrate = Migrate(app, db)
 
+@app.cli.command()
+def init_db():
+    models.init_db()
 
 #----------------------------------------------------------------------------#
 # Filters.
