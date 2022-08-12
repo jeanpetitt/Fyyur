@@ -19,7 +19,11 @@ if os.environ.get('DATABASE_URL') is None:
     SQLALCHEMY_DATABASE_URI = 'postgresql://postgres:2002@localhost/fyyur'
     # SQLALCHEMY_TRACK_MODIFICATIONS = False
 else:
-    SQLALCHEMY_DATABASE_URI = os.environ['DATABASE_URL']
+    # SQLALCHEMY_DATABASE_URI = os.environ['DATABASE_URL']
+    prodURI = os.getenv('DATABASE_URL')
+    prodURI = prodURI.replace("postgres://", "postgresql://")
+    SQLALCHEMY_DATABASE_URI = prodURI
+
 
 # TODO IMPLEMENT DATABASE URL
 # SQLALCHEMY_DATABASE_URI = 'postgresql://postgres:2002@localhost/fyyur'
