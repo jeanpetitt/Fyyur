@@ -2,8 +2,9 @@ from flask_sqlalchemy import SQLAlchemy
 from flask import  Flask
 from flask_migrate import Migrate
 
-
-db = SQLAlchemy()
+app = Flask(__name__)
+app.config.from_object('config')
+db = SQLAlchemy(app)
 
 # creation du model Salle(Venue) 
 class Venue(db.Model):
@@ -78,14 +79,10 @@ class Album(db.Model):
     title_song = db.Column(db.String(120))
     artist = db.relationship('Artist', backref=db.backref('artist', cascade='all, delete'), lazy=True)
     artist_id = db.Column(db.Integer, db.ForeignKey('artist.id'), nullable=False) 
+db.create_all()
 
-def init_db():
-    db.drop_all()
-    db.create_all()
-    db.session.add(Artist)
-    db.session.add(Venue)
-    db.session.add(Album)
-    db.session.add(ArtistShow)
-    db.session.add(Show)
-    db.session.commit()
-    #lg.warning('Database initialized!')
+# def init_db():
+#     db.drop_all()
+#     db.create_all()
+#    
+#     #lg.warning('Database initialized!')

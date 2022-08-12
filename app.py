@@ -19,15 +19,16 @@ import models
 # App Config.
 #----------------------------------------------------------------------------#
 
-app = Flask(__name__)
+# app = Flask(__name__)
 moment = Moment(app)
 app.config.from_object('config')
-models.db.init_app(app)
+db.init_app(app)
 migrate = Migrate(app, db)
 
-@app.cli.command()
-def init_db():
-    models.init_db()
+
+# @app.cli.command()
+# def init_db():
+#     models.init_db()
 
 #----------------------------------------------------------------------------#
 # Filters.
