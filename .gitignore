@@ -1,12 +1,12 @@
 .vscode
-__pycache__/
-*
+__pycache__
+
 # environnements
 fyyur/
+
+# system
 node_modules/
+migrations/
+demo_fyyur.zip
 package-lock.json
 package.json
-demo_fyyur.zip
-
-#migration
-migrations/
