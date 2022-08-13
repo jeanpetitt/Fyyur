@@ -34,11 +34,11 @@ migrate = Migrate(app, db)
 #----------------------------------------------------------------------------#
 
 def format_datetime(value, format='medium'):
-  date = parse(str(value))
-  if  isinstance(date, str):
-        date = parse(value)
-  else:
-        date = value
+  # date = parse(str(value))
+  # if  isinstance(date, str):
+  #       date = parse(value)
+  # else:
+  date = value
   if format == 'full':
       format="EEEE MMMM, d, y 'at' h:mma"
   elif format == 'medium':
