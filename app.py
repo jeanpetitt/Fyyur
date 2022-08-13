@@ -149,7 +149,7 @@ def show_venue(venue_id):
             "artist_id": show.artist_id,
             "artist_name": show.artist.name,
             "artist_image_link": show.artist.image_link,
-            "start_time": str(show.start_time)
+            "start_time": show.start_time
           }
       if show.start_time > temps_courant:
         upcoming_shows.append(data)
@@ -284,7 +284,7 @@ def show_artist(artist_id):
             "artist_id": show.artist_id,
             "venue_name": show.venue.name,
             "venue_image_link": show.venue.image_link,
-            "start_time": str(show.start_time)
+            "start_time": show.start_time
           }
       if show.start_time > temps_courant:
         upcoming_shows.append(data)
