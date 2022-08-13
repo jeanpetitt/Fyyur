@@ -34,7 +34,11 @@ migrate = Migrate(app, db)
 #----------------------------------------------------------------------------#
 
 def format_datetime(value, format='medium'):
-  date = parse(value)
+  date = parse(str(value))
+  if  isinstance(date, str):
+        date = parse(value)
+  else:
+        date = value
   if format == 'full':
       format="EEEE MMMM, d, y 'at' h:mma"
   elif format == 'medium':
@@ -407,7 +411,7 @@ def shows():
                           'venue_name': show.venue.name,
                           'artists': set(),                
                           'venue_image_link': show.venue.image_link,
-                          'start_time': str(show.start_time)
+                          'start_time': show.start_time
                         }) 
             for artist in artists:
               for show_art in show_artists:
