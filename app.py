@@ -408,7 +408,7 @@ def shows():
                           'venue_name': show.venue.name,
                           'artists': set(),                
                           'venue_image_link': show.venue.image_link,
-                          'start_time': format_datetime(str(show.start_time))
+                          'start_time': str(show.start_time)
                         }) 
             for artist in artists:
               for show_art in show_artists:
