@@ -8,7 +8,7 @@
         <span>ID Show: {{ show.show_id }}</span>
         <div class="tile tile-show">         
             <img src="{{ show.venue_image_link }}" alt="Venue Image" />
-            <h4>{{ show.start_time|datetime('medium') }}</h4>
+            <h4>{{ show.start_time|datetime('mediu') }}</h4>
             {% for artist in show.artists %}
             <h5><a href="/artists/{{artist.id }}">{{ artist.name }}</a></h5>
             {% endfor %}

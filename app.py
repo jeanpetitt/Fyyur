@@ -4,7 +4,7 @@
 
 from crypt import methods
 import json
-import dateutil.parser
+from dateutil.parser import parse
 import babel
 from flask import render_template, request, Response, flash, redirect, url_for
 from flask_moment import Moment 
@@ -14,7 +14,6 @@ from flask_wtf import Form
 from forms import *
 from models import *
 from datetime import datetime
-import models
 #----------------------------------------------------------------------------#
 # App Config.
 #----------------------------------------------------------------------------#
@@ -35,12 +34,12 @@ migrate = Migrate(app, db)
 #----------------------------------------------------------------------------#
 
 def format_datetime(value, format='medium'):
-  date = dateutil.parser.parse(value)
+  date = parse(value)
   if format == 'full':
       format="EEEE MMMM, d, y 'at' h:mma"
   elif format == 'medium':
       format="EE MM, dd, y h:mma"
-  return babel.dates.format_datetime(date, format, locale='en')
+  return babel.dates.format_datetime(date, format, locale='fr')
 
 app.jinja_env.filters['datetime'] = format_datetime
 
