@@ -29,12 +29,7 @@
       <div class="form-group">
           <label for="phone">Phone</label>
           <span style="font-size: 13px; color: #333; margin-bottom: 3px;">&emsp;(avec indicatif du pays, ex: +237)</span>
-          {% if num_tel == ''%}
-          <input autofocus="" class="form-control" id="phone" name="phone" placeholder="phone" value="" type="tel">
-          {% endif %}
-          {% if num_tel != ''%}
-          <input autofocus="" value="{{num_tel}}" class="form-control" id="phone" name="phone" placeholder="phone" value="" type="tel">
-          {% endif %}
+          <input autofocus="" class="form-control" id="phone" name="phone" placeholder="phone" value="{{venue.phone}}" type="tel">
           <span id="error_phone"></span>
         </div>
       <div class="form-group">
